@@ -1,0 +1,25 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    margin: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  
+  .wrapper {
+    position: relative;
+    width: 100%;
+  }
+  
+  :root {
+    --black1: #222;
+    --black2: #999;
+    --blue: #0069af;
+    --dark-blue: rgb(0 22 44); 
+    --white: #fff;
+    --grey: #f5f5f5;
+  }
