@@ -37,7 +37,7 @@ const getEarnings = async (months) => {
   }
 
   const params = `/?months=${months}`
-  return await makeRequest('get', 'REACT_APP_API_ENDPOINT_STOCKSANALYZER', null, true, params)
+  return await makeRequest('get', 'REACT_APP_API_ENDPOINT_EARNINGS', null, true, params)
 }
 
 export { getEarnings,isSuccess}

@@ -1,7 +1,7 @@
 // src/App.js
 import React, { useState } from 'react';
 import { getEarnings } from './requests';
-import './app.css'
+import './app.css';
 
 const App = () => {
   const [month, setMonth] = useState('');
@@ -13,12 +13,12 @@ const App = () => {
 
   const fetchEarningsData = async () => {
     try {
-      
-      if(month <=0) return;
+      if (month <= 0) return;
 
-      const response = await getEarnings(month); // Assuming getEarnings is an async function
+      const response = await getEarnings(month);
       if (response && response.data) {
-        setEarningsData(response.data);
+        const tableData = convertCsvToDataArray(response.data);
+        setEarningsData(tableData);
       } else {
         setEarningsData([]);
       }
@@ -26,6 +26,11 @@ const App = () => {
       console.error(error);
       setEarningsData([]);
     }
+  };
+
+  const convertCsvToDataArray = (csvData) => {
+    const rows = csvData.split('\r\n');
+    return rows.map(row => row.split(','));
   };
 
   return (
@@ -38,30 +43,26 @@ const App = () => {
         onChange={handleMonthChange}
       />
       <button onClick={fetchEarningsData}>Fetch Earnings</button>
-      <div>
-        {earningsData.length > 0 ? (
-          <table border="1">
-            <thead>
-              <tr>
-                {Object.keys(earningsData[0]).map((key) => (
-                  <th key={key}>{key}</th>
+      {earningsData.length > 0 && (
+        <table className="earnings-table">
+          <thead>
+            <tr>
+              {earningsData[0].map((header, index) => (
+                <th key={index}>{header}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {earningsData.slice(1).map((row, index) => (
+              <tr key={index}>
+                {row.map((cell, cellIndex) => (
+                  <td key={cellIndex}>{cell}</td>
                 ))}
               </tr>
-            </thead>
-            <tbody>
-              {earningsData.map((item, index) => (
-                <tr key={index}>
-                  {Object.values(item).map((value, subIndex) => (
-                    <td key={subIndex}>{value}</td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        ) : (
-          <p>No earnings data available.</p>
-        )}
-      </div>
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 };
