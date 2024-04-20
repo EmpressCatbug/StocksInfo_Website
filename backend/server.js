@@ -1,11 +1,15 @@
 // server.js
-const express = require('express');
-const axios = require('axios');
-const cors = require('cors');
-const helper = require('./helper')
+const express = require('express')
 const path = require('path')
+const app = express()
+const bodyParser = require('body-parser')
+require('dotenv').config()
+const helper = require('./helper')
+const cors = require('cors')
 
-const app = express();
+app.use(cors())
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors());
 
 app.post('/api/make-request', async (req, res) => {
@@ -13,6 +17,8 @@ app.post('/api/make-request', async (req, res) => {
       let { method, endpoint, data, isBlob, params } = req.body
   
       const url = `${helper.getEnv(endpoint)}${params}`
+
+      console.log('hitting: ' + url)
   
       const response = await helper.makeRequest(method, url, data, isBlob)
   

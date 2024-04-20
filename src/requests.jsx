@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const makeRequest = async (method, endpoint, data, isBlob, params = '') => {
   const requestData = { method, endpoint, data, isBlob, params }
-  const url = `www.stocksinfo.net/api/make-request`
+  const url = `https://www.stocksinfo.net/api/make-request`
 
   try {
     const config = {
@@ -31,13 +31,13 @@ const isSuccess = (response) => {
   }
 }
 
-const GetUserById = async (userId) => {
-  if (!userId) {
+const getEarnings = async (months) => {
+  if (!months) {
     return null
   }
 
-  const params = `/${userId}`
-  return await makeRequest('get', 'REACT_APP_API_ENDPOINT_ACCOUNT_GET_USER', null, true, params)
+  const params = `/?months=${months}`
+  return await makeRequest('get', 'REACT_APP_API_ENDPOINT_EARNINGS', null, true, params)
 }
 
-export { GetUserById,isSuccess}
+export { getEarnings,isSuccess}
